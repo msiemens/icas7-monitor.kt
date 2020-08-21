@@ -1,0 +1,76 @@
+import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+val coroutinesVersion = "1.3.9-native-mt"
+val klockVersion = "1.12.0"
+val kotlinVersion = "1.4.0"
+val ktorVersion = "1.4.0"
+val jacksonVersion = "2.11.1"
+val serializationVersion = "1.0.0-RC"
+
+plugins {
+    application
+    kotlin("jvm") version "1.4.0"
+    // kotlin("plugin.serialization") version "1.4.0"
+    id("com.github.johnrengelman.shadow") version "6.0.0"
+    id("com.palantir.graal") version "0.7.1-14-g8d28394"
+    id("com.github.ben-manes.versions") version "0.29.0"
+}
+group = "de.msiemens"
+version = "1.0-SNAPSHOT"
+
+application {
+    mainClassName = "MainKt"
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+graal {
+    mainClass(application.mainClassName)
+    graalVersion("20.1.0")
+    outputName("icas7-monitor")
+    option("--enable-https")
+    option("-O3")
+
+    if (System.getProperty("os.name") == "Linux") {
+        option("--static")
+    }
+}
+
+dependencies {
+    implementation("com.soywiz.korlibs.klock:klock:$klockVersion")
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-json:$ktorVersion")
+    implementation("io.ktor:ktor-client-gson:$ktorVersion")
+    implementation("com.google.code.gson:gson:2.8.6")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion")
+    implementation("io.ktor:ktor-client-apache:$ktorVersion")
+}
+
+tasks {
+    withType<KotlinCompile>() {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+    withType<ShadowJar> {
+        mergeServiceFiles()
+        manifest {
+            attributes(mapOf("Main-Class" to application.mainClassName))
+        }
+    }
+
+    withType<Jar> {
+        manifest {
+            attributes["Main-Class"] = application.mainClassName
+        }
+    }
+
+    build {
+        dependsOn(shadowJar)
+    }
+}

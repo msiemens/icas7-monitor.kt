@@ -1,0 +1,302 @@
+[
+  {
+    "name": "de.msiemens.icas7monitor.data.Auth",
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true,
+    "fields": [
+      {
+        "name": "accessToken",
+        "allowWrite": true
+      },
+      {
+        "name": "teacherId",
+        "allowWrite": true
+      }
+    ]
+  },
+  {
+    "name": "de.msiemens.icas7monitor.http.AuthRequest",
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "de.msiemens.icas7monitor.http.AuthResponse",
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true,
+    "fields": [
+      {
+        "name": "accessToken",
+        "allowWrite": true
+      },
+      {
+        "name": "userId",
+        "allowWrite": true
+      }
+    ]
+  },
+  {
+    "name": "de.msiemens.icas7monitor.data.Course",
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true,
+    "fields": [
+      {
+        "name": "courseId",
+        "allowWrite": true
+      },
+      {
+        "name": "startsOn",
+        "allowWrite": true
+      },
+      {
+        "name": "endsOn",
+        "allowWrite": true
+      },
+      {
+        "name": "startsAt",
+        "allowWrite": true
+      },
+      {
+        "name": "endsAt",
+        "allowWrite": true
+      },
+      {
+        "name": "createdAt",
+        "allowWrite": true
+      },
+      {
+        "name": "modifiedAt",
+        "allowWrite": true
+      },
+      {
+        "name": "students",
+        "allowWrite": true
+      }
+    ]
+  },
+  {
+    "name": "de.msiemens.icas7monitor.http.FetchCoursesResponse",
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true,
+    "fields": [
+      {
+        "name": "courses",
+        "allowWrite": true
+      }
+    ]
+  },
+  {
+    "name": "de.msiemens.icas7monitor.utils.InlineDateTimeDeserializer",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "de.msiemens.icas7monitor.utils.InlineTimeDeserializer",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "de.msiemens.icas7monitor.state.State",
+    "allDeclaredFields": true,
+    "fields": [
+      {
+        "name": "auth",
+        "allowWrite": true
+      },
+      {
+        "name": "lastModified",
+        "allowWrite": true
+      }
+    ]
+  },
+  {
+    "name": "de.msiemens.icas7monitor.data.Student",
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true,
+    "fields": [
+      {
+        "name": "createdAt",
+        "allowWrite": true
+      },
+      {
+        "name": "modifiedAt",
+        "allowWrite": true
+      },
+      {
+        "name": "subject",
+        "allowWrite": true
+      },
+      {
+        "name": "postponed",
+        "allowWrite": true
+      },
+      {
+        "name": "grade",
+        "allowWrite": true
+      }
+    ]
+  },
+  {
+    "name": "de.msiemens.icas7monitor.notify.SendMailRequest",
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "de.msiemens.icas7monitor.notify.SendMailPersonalization",
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "de.msiemens.icas7monitor.notify.SendMailReceiver",
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "de.msiemens.icas7monitor.notify.SendMailSender",
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "de.msiemens.icas7monitor.notify.SendMailContent",
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "kotlin.Metadata",
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "kotlin.internal.jdk8.JDK8PlatformImplementations",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "kotlin.jvm.internal.DefaultConstructorMarker"
+  },
+  {
+    "name": "kotlin.reflect.jvm.internal.ReflectionFactoryImpl",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "org.apache.commons.logging.LogFactory"
+  },
+  {
+    "name": "org.apache.commons.logging.impl.Jdk14Logger",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": [
+          "java.lang.String"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "org.apache.commons.logging.impl.Log4JLogger"
+  },
+  {
+    "name": "org.apache.commons.logging.impl.LogFactoryImpl",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "org.apache.commons.logging.impl.WeakHashtable",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
+    "name": "sun.misc.Unsafe",
+    "fields": [
+      {
+        "name": "theUnsafe"
+      }
+    ],
+    "methods": [
+      {
+        "name": "allocateInstance",
+        "parameterTypes": [
+          "java.lang.Class"
+        ]
+      }
+    ]
+  },
+  {
+    "name": "io.ktor.utils.io.pool.DefaultPool",
+    "fields": [
+      {
+        "name": "top",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "io.ktor.utils.io.ByteBufferChannel",
+    "fields": [
+      {
+        "name": "state",
+        "allowUnsafeAccess": true
+      },
+      {
+        "name": "writeOp",
+        "allowUnsafeAccess": true
+      },
+      {
+        "name": "readOp",
+        "allowUnsafeAccess": true
+      },
+      {
+        "name": "closed",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "io.ktor.utils.io.internal.RingBufferCapacity",
+    "fields": [
+      {
+        "name": "availableForRead",
+        "allowUnsafeAccess": true
+      },
+      {
+        "name": "availableForWrite",
+        "allowUnsafeAccess": true
+      },
+      {
+        "name": "pendingToFlush",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "io.ktor.utils.io.core.Input"
+  },
+  {
+    "name": "java.lang.String",
+    "allDeclaredFields": true,
+    "allDeclaredConstructors": true
+  }
+]
