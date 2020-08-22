@@ -17,7 +17,7 @@ ${
         .map { course ->
             """
             <p style="margin-left: 2em">
-                Am <b>${course.startsOn?.format("dd.MM.yyyy")}, ${course.startsAt.format("hh:mm")} - ${course.endsAt.format("hh:mm")}</b>:<br>
+                Am <b>${course.startsOn?.format("dd.MM.yyyy")}, ${course.startsAt.format("HH:mm")} - ${course.endsAt.format("HH:mm")}</b>:<br>
                 Fächer: ${
                     if (course.subjects().isNotEmpty()) course.subjects().joinToString(", ") else ""
                 }<br>
@@ -44,7 +44,7 @@ ${
     courses
         .map { course ->
             """
-    Am **${course.startsOn?.format("dd.MM.yyyy")}, ${course.startsAt.format("hh:mm")} - ${course.endsAt.format("hh:mm")}**:
+    Am **${course.startsOn?.format("dd.MM.yyyy")}, ${course.startsAt.format("HH:mm")} - ${course.endsAt.format("HH:mm")}**:
     Fächer: ${if (course.subjects().isNotEmpty()) course.subjects().joinToString(", ") else ""}
     Schüler: ${course.students.size} (${course.grades().sorted().joinToString(", ")})
 """
