@@ -26,6 +26,7 @@ application {
 repositories {
     mavenCentral()
     jcenter()
+    maven("https://kotlin.bintray.com/kotlinx")
 }
 
 graal {
@@ -34,6 +35,7 @@ graal {
 
     mainClass(application.mainClassName)
     outputName("icas7-monitor")
+    option("-H:IncludeResources=logging.properties")
     option("--enable-https")
     option("-O3")
 

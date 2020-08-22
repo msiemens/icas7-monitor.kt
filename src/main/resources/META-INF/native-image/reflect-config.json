@@ -194,6 +194,15 @@
     ]
   },
   {
+    "name": "java.util.logging.FileHandler",
+    "methods": [
+      {
+        "name": "<init>",
+        "parameterTypes": []
+      }
+    ]
+  },
+  {
     "name": "org.apache.commons.logging.LogFactory"
   },
   {
