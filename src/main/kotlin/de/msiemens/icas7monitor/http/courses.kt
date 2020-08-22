@@ -21,12 +21,18 @@ suspend fun fetchCourses(state: State, client: HttpClient): Pair<List<Course>, S
     val today = DateTime.now()
     val range = today until (today + 2.weeks)
 
-    return range.days().fold(Pair(emptyList(), state), { acc: Pair<List<Course>, State>, date: Date ->
-        fetchCoursesFor(date, acc, client)
-    })
+    return range.days()
+        .fold(Pair(emptyList(), state),
+            { acc: Pair<List<Course>, State>, date: Date ->
+                fetchCoursesFor(date, acc, client)
+            })
 }
 
-private suspend fun fetchCoursesFor(date: Date, acc: Pair<List<Course>, State>, client: HttpClient): Pair<List<Course>, State> {
+private suspend fun fetchCoursesFor(
+    date: Date,
+    acc: Pair<List<Course>, State>,
+    client: HttpClient
+): Pair<List<Course>, State> {
     val response = try {
         client.get<FetchCoursesResponse> {
             url.takeFrom("https://sh.icas7.de/courselist")
@@ -38,7 +44,7 @@ private suspend fun fetchCoursesFor(date: Date, acc: Pair<List<Course>, State>, 
         if (e.response?.status == HttpStatusCode.Forbidden) {
             return fetchCoursesFor(
                 date,
-                Pair(acc.first, initializeState(Config.username, Config.password, client)),
+                acc.first to initializeState(Config.username, Config.password, client),
                 client
             )
         }
@@ -49,5 +55,5 @@ private suspend fun fetchCoursesFor(date: Date, acc: Pair<List<Course>, State>, 
     val courses = response.courses
         .map { it.copy(startsOn = date) }
 
-    return Pair(acc.first + courses, acc.second)
+    return acc.first + courses to acc.second
 }
