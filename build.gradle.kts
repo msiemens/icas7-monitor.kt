@@ -29,8 +29,10 @@ repositories {
 }
 
 graal {
+    graalVersion("20.2.0")
+    javaVersion("11")
+
     mainClass(application.mainClassName)
-    graalVersion("20.1.0")
     outputName("icas7-monitor")
     option("--enable-https")
     option("-O3")
@@ -50,11 +52,14 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-core:$serializationVersion")
     implementation("io.ktor:ktor-client-apache:$ktorVersion")
+    implementation("org.jetbrains.kotlinx:kotlinx-cli:0.3")
+    implementation("io.github.microutils:kotlin-logging:1.8.3")
+    implementation("org.slf4j:slf4j-jdk14:1.7.29")
 }
 
 tasks {
     withType<KotlinCompile>() {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "11"
     }
 
     withType<ShadowJar> {
