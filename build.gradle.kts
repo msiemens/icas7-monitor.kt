@@ -13,7 +13,7 @@ plugins {
     kotlin("jvm") version "1.4.0"
     // kotlin("plugin.serialization") version "1.4.0"
     id("com.github.johnrengelman.shadow") version "6.0.0"
-    id("com.palantir.graal") version "0.7.1-14-g8d28394"
+    id("com.palantir.graal") version "0.7.1-15-g62b5090"
     id("com.github.ben-manes.versions") version "0.29.0"
 }
 group = "de.msiemens"
