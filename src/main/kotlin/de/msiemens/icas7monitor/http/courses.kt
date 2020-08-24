@@ -3,7 +3,7 @@ package de.msiemens.icas7monitor.http
 import com.google.gson.annotations.SerializedName
 import com.soywiz.klock.*
 import de.msiemens.icas7monitor.data.Course
-import de.msiemens.icas7monitor.state.State
+import de.msiemens.icas7monitor.data.State
 import de.msiemens.icas7monitor.state.refreshState
 import de.msiemens.icas7monitor.utils.days
 import io.ktor.client.*

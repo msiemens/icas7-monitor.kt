@@ -1,7 +1,6 @@
-package de.msiemens.icas7monitor.state
+package de.msiemens.icas7monitor.data
 
 import com.soywiz.klock.DateTime
-import de.msiemens.icas7monitor.data.Auth
 
 data class State(
     val auth: Auth,

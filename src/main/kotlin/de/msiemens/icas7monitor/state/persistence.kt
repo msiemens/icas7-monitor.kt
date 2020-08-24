@@ -1,6 +1,7 @@
 package de.msiemens.icas7monitor.state
 
 import de.msiemens.icas7monitor.config.Config
+import de.msiemens.icas7monitor.data.State
 import de.msiemens.icas7monitor.http.login
 import de.msiemens.icas7monitor.utils.serializationBuilder
 import io.ktor.client.*
