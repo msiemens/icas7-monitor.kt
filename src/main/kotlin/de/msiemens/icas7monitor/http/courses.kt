@@ -2,10 +2,9 @@ package de.msiemens.icas7monitor.http
 
 import com.google.gson.annotations.SerializedName
 import com.soywiz.klock.*
-import de.msiemens.icas7monitor.config.Config
 import de.msiemens.icas7monitor.data.Course
 import de.msiemens.icas7monitor.state.State
-import de.msiemens.icas7monitor.state.initializeState
+import de.msiemens.icas7monitor.state.refreshState
 import de.msiemens.icas7monitor.utils.days
 import io.ktor.client.*
 import io.ktor.client.features.*
@@ -33,18 +32,20 @@ private suspend fun fetchCoursesFor(
     acc: Pair<List<Course>, State>,
     client: HttpClient
 ): Pair<List<Course>, State> {
+    val (courses, state) = acc
+
     val response = try {
         client.get<FetchCoursesResponse> {
             url.takeFrom("https://sh.icas7.de/courselist")
-            header(HttpHeaders.Authorization, "Bearer ${acc.second.auth.accessToken}")
+            header(HttpHeaders.Authorization, "Bearer ${state.auth.accessToken}")
             parameter("present", date.format(ISO8601.DATE_CALENDAR_COMPLETE.extended))
-            parameter("teacher_id", acc.second.auth.teacherId.toString())
+            parameter("teacher_id", state.auth.teacherId.toString())
         }
     } catch (e: ClientRequestException) {
         if (e.response?.status == HttpStatusCode.Forbidden) {
             return fetchCoursesFor(
                 date,
-                acc.first to initializeState(Config.username, Config.password, client),
+                courses to refreshState(state, client),
                 client
             )
         }
@@ -52,8 +53,7 @@ private suspend fun fetchCoursesFor(
         throw e
     }
 
-    val courses = response.courses
-        .map { it.copy(startsOn = date) }
+    val newCourses = response.courses.map { it.copy(startsOn = date) }
 
-    return acc.first + courses to acc.second
+    return courses + newCourses to state
 }

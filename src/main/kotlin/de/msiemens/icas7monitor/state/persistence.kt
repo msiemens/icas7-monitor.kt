@@ -7,11 +7,11 @@ import io.ktor.client.*
 import java.io.File
 import java.io.FileNotFoundException
 
-suspend fun loadState(client: HttpClient) =
-    restoreState() ?: initializeState(Config.username, Config.password, client)
+suspend fun loadState(client: HttpClient): State =
+    restoreState() ?: State(login(Config.username, Config.password, client), null)
 
-suspend fun initializeState(email: String, password: String, client: HttpClient): State =
-    State(login(email, password, client), null)
+suspend fun refreshState(state: State, client: HttpClient): State =
+    state.copy(auth = login(Config.username, Config.password, client))
 
 private fun restoreState(): State? {
     val contents = try {
