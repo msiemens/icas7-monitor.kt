@@ -60,14 +60,6 @@
         "allowWrite": true
       },
       {
-        "name": "createdAt",
-        "allowWrite": true
-      },
-      {
-        "name": "modifiedAt",
-        "allowWrite": true
-      },
-      {
         "name": "students",
         "allowWrite": true
       }
@@ -85,15 +77,6 @@
     ]
   },
   {
-    "name": "de.msiemens.icas7monitor.utils.InlineDateTimeDeserializer",
-    "methods": [
-      {
-        "name": "<init>",
-        "parameterTypes": []
-      }
-    ]
-  },
-  {
     "name": "de.msiemens.icas7monitor.utils.InlineTimeDeserializer",
     "methods": [
       {
@@ -103,7 +86,7 @@
     ]
   },
   {
-    "name": "de.msiemens.icas7monitor.state.State",
+    "name": "de.msiemens.icas7monitor.data.State",
     "allDeclaredFields": true,
     "fields": [
       {
@@ -111,7 +94,7 @@
         "allowWrite": true
       },
       {
-        "name": "lastModified",
+        "name": "courses",
         "allowWrite": true
       }
     ]
@@ -121,14 +104,6 @@
     "allDeclaredFields": true,
     "allDeclaredConstructors": true,
     "fields": [
-      {
-        "name": "createdAt",
-        "allowWrite": true
-      },
-      {
-        "name": "modifiedAt",
-        "allowWrite": true
-      },
       {
         "name": "subject",
         "allowWrite": true

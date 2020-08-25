@@ -7,8 +7,10 @@ import de.msiemens.icas7monitor.data.State
 import de.msiemens.icas7monitor.http.fetchCourses
 import de.msiemens.icas7monitor.http.getClient
 import de.msiemens.icas7monitor.notify.notify
+import de.msiemens.icas7monitor.state.initializeState
 import de.msiemens.icas7monitor.state.loadState
 import de.msiemens.icas7monitor.state.persistState
+import io.ktor.client.*
 import io.ktor.client.features.*
 import io.ktor.client.statement.*
 import kotlinx.cli.*
@@ -20,15 +22,32 @@ private val loggingConfig = {}::class.java.getResourceAsStream("/logging.propert
 private val _log = LogManager.getLogManager().readConfiguration(loggingConfig)
 private val logger = KotlinLogging.logger {}
 
-fun run(args: Array<String>) {
-    val parser = ArgParser("icas7-monitor")
-    val dryRun by parser.option(ArgType.Boolean, fullName = "dry-run", description = "Perform dry run").default(false)
+data class Options(
+    val dryRun: Boolean,
+    val init: Boolean,
+) {
+    companion object {
+        fun parse(args: Array<String>): Options {
+            val parser = ArgParser("icas7-monitor")
 
-    parser.parse(args)
+            val dryRun by parser.option(ArgType.Boolean, fullName = "dry-run", description = "Perform dry run")
+                .default(false)
+            val init by parser.option(ArgType.Boolean, fullName = "init", description = "Initialize state file")
+                .default(false)
+
+            parser.parse(args)
+
+            return Options(dryRun, init)
+        }
+    }
+}
+
+fun run(args: Array<String>) {
+    val options = Options.parse(args)
 
     runBlocking {
         try {
-            execute(dryRun)
+            execute(options)
         } catch (e: ClientRequestException) {
             val response = e.response?.readText()
 
@@ -39,24 +58,19 @@ fun run(args: Array<String>) {
     }
 }
 
-private suspend fun execute(dryRun: Boolean) {
+private suspend fun execute(options: Options) {
     val client = getClient()
 
-    val (courses, state) = fetchCourses(loadState(client), client)
+    val (courses, state) = fetchCourses(getState(options.init, client), client)
 
-    val lastModified = findLastModified(courses)
-
-    logger.info { "lastModified = $lastModified" }
-    logger.info { "state.lastModified = ${state.lastModified}" }
-
-    if (dryRun) {
-        println("state.lastModified = ${state.lastModified}")
-        println("lastModified = $lastModified")
+    if (options.dryRun) {
+        println("state.courses = ${state.courses}")
+        println("courses = $courses")
 
         return
     }
 
-    if (lastModified != state.lastModified) {
+    if (courses != state.courses && !options.init) {
         println("Courses have changed")
 
         logger.info { "sending notification" }
@@ -64,10 +78,8 @@ private suspend fun execute(dryRun: Boolean) {
         notify(courses, client)
     }
 
-    persistState(state.copy(lastModified = lastModified))
+    persistState(state.copy(courses = courses))
 }
 
-fun findLastModified(courses: List<Course>): DateTime? =
-    courses.flatMap { course ->
-        course.timestamps() + course.students.flatMap { it.timestamps() }
-    }.maxOrNull()
+private suspend fun getState(init: Boolean, client: HttpClient) =
+    if (init) initializeState(client) else loadState(client)

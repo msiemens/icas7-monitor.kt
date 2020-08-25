@@ -27,18 +27,6 @@ class DateTimeDeserializer : JsonDeserializer<DateTime> {
     }
 }
 
-class InlineDateTimeSerializer : JsonSerializer<Double> {
-    override fun serialize(src: Double?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
-        return JsonPrimitive(DateTime((src ?: return JsonNull.INSTANCE)).format(dateTimeFormat))
-    }
-}
-
-class InlineDateTimeDeserializer : JsonDeserializer<Double> {
-    override fun deserialize(json: JsonElement?, type: Type?, context: JsonDeserializationContext?): Double? {
-        return dateTimeFormat.parse(json?.asString ?: return null).utc.unixMillis
-    }
-}
-
 class DateSerializer : JsonSerializer<Date> {
     override fun serialize(src: Date?, typeOfSrc: Type?, context: JsonSerializationContext?): JsonElement {
         return JsonPrimitive((src ?: return JsonNull.INSTANCE).format(ISO8601.DATE))

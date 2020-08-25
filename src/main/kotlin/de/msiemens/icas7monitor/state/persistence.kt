@@ -9,7 +9,10 @@ import java.io.File
 import java.io.FileNotFoundException
 
 suspend fun loadState(client: HttpClient): State =
-    restoreState() ?: State(login(Config.username, Config.password, client), null)
+    restoreState() ?: initializeState(client)
+
+suspend fun initializeState(client: HttpClient) =
+    State(login(Config.username, Config.password, client), null)
 
 suspend fun refreshState(state: State, client: HttpClient): State =
     state.copy(auth = login(Config.username, Config.password, client))
