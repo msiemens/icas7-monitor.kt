@@ -4,7 +4,7 @@ import com.google.gson.annotations.JsonAdapter
 import com.google.gson.annotations.SerializedName
 import com.soywiz.klock.Date
 import com.soywiz.klock.Time
-import de.msiemens.icas7monitor.utils.InlineTimeDeserializer
+import de.msiemens.icas7monitor.utils.InlineTimeSerializer
 
 data class Course(
     @SerializedName("course_id")
@@ -17,11 +17,11 @@ data class Course(
     val endsOn: Date?,
 
     @SerializedName("starts_at")
-    @JsonAdapter(InlineTimeDeserializer::class)
+    @JsonAdapter(InlineTimeSerializer::class)
     val startsAt: Time,
 
     @SerializedName("ends_at")
-    @JsonAdapter(InlineTimeDeserializer::class)
+    @JsonAdapter(InlineTimeSerializer::class)
     val endsAt: Time,
 
     @SerializedName("course_member")

@@ -77,7 +77,7 @@
     ]
   },
   {
-    "name": "de.msiemens.icas7monitor.utils.InlineTimeDeserializer",
+    "name": "de.msiemens.icas7monitor.utils.InlineTimeSerializer",
     "methods": [
       {
         "name": "<init>",
