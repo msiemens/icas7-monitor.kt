@@ -17,11 +17,9 @@ ${
         .map { course ->
             """
             <p style="margin-left: 2em">
-                Am <b>${course.startsOn?.format("dd.MM.yyyy")}, ${course.startsAt.format("HH:mm")} - ${course.endsAt.format("HH:mm")}</b>:<br>
-                Fächer: ${
-                    if (course.subjects().isNotEmpty()) course.subjects().joinToString(", ") else ""
-                }<br>
-                Schüler: ${course.students.size} (${course.grades().sorted().joinToString(", ")})
+                Am <b>${schedule(course)}</b>:<br>
+                Fächer: ${subjects(course)}<br>
+                Schüler: ${students(course)}
             </p>        
             """.trimIndent()
         }
@@ -43,10 +41,10 @@ Hier ist der neue Plan:
 ${
     courses
         .map { course ->
-            """
-    Am **${course.startsOn?.format("dd.MM.yyyy")}, ${course.startsAt.format("HH:mm")} - ${course.endsAt.format("HH:mm")}**:
-    Fächer: ${if (course.subjects().isNotEmpty()) course.subjects().joinToString(", ") else ""}
-    Schüler: ${course.students.size} (${course.grades().sorted().joinToString(", ")})
+"""
+    Am **${schedule(course)}**:
+    Fächer: ${subjects(course)}
+    Schüler: ${students(course)}
 """
         }
         .joinToString("")
@@ -55,3 +53,12 @@ ${
 Liebe Grüße,
 deine freundliche Nachhilfe-Erinnerung :)
 """
+
+private fun students(course: Course) =
+    "${course.students.size} (${course.grades().sorted().joinToString(", ")})"
+
+private fun subjects(course: Course) =
+    if (course.subjects().isNotEmpty()) course.subjects().joinToString(", ") else ""
+
+private fun schedule(course: Course) =
+    "${course.startsOn?.format("dd.MM.yyyy")}, ${course.startsAt.format("HH:mm")} - ${course.endsAt.format("HH:mm")}"
