@@ -41,6 +41,7 @@ graal {
 
     if (System.getProperty("os.name") == "Linux") {
         option("--static")
+        option("--libc=musl")
     }
 }
 

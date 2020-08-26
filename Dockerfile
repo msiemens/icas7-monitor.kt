@@ -1,16 +1,16 @@
 FROM zenika/kotlin:1.4-jdk12
 
-RUN yum install --enablerepo=ol7_optional_latest -y \
-    gcc \
-    libstdc++-devel \
-    libstdc++-static \
-    glibc-static \
-    zlib-devel \
-    zlib-static \
-    && yum clean -y all
+RUN mkdir /build
 
-CMD cd /app && \
-    ./gradlew nativeImage \
-        --no-daemon \
-        -Dorg.gradle.jvmargs=-XX:+UseContainerSupport \
-        -Dorg.gradle.unsafe.watch-fs=false
+COPY .docker/install-deps.sh /build/
+RUN bash /build/install-deps.sh
+
+COPY .docker/install-musl.sh /build/
+RUN bash /build/install-musl.sh
+
+RUN cp ./usr/lib/gcc/x86_64-redhat-linux/4.8.2/libstdc++.a /usr/local/musl/lib/
+
+COPY .docker/install-zlib.sh /build/
+RUN bash /build/install-zlib.sh
+
+CMD bash /build/build.sh
