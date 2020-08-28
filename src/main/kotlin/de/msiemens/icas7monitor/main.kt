@@ -2,8 +2,11 @@ package de.msiemens.icas7monitor
 
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.ISO8601
+import com.soywiz.klock.TimeSpan
+import com.soywiz.klock.hours
 import de.msiemens.icas7monitor.data.Course
 import de.msiemens.icas7monitor.data.State
+import de.msiemens.icas7monitor.data.Student
 import de.msiemens.icas7monitor.http.fetchCourses
 import de.msiemens.icas7monitor.http.getClient
 import de.msiemens.icas7monitor.notify.notify
@@ -22,7 +25,7 @@ private val loggingConfig = {}::class.java.getResourceAsStream("/logging.propert
 private val _log = LogManager.getLogManager().readConfiguration(loggingConfig)
 private val logger = KotlinLogging.logger {}
 
-data class Options(
+private data class Options(
     val dryRun: Boolean,
     val init: Boolean,
 ) {
@@ -40,6 +43,10 @@ data class Options(
             return Options(dryRun, init)
         }
     }
+}
+
+internal enum class Action {
+    SKIP, QUEUE_NOTIFICATION, SEND_NOTIFICATION
 }
 
 fun run(args: Array<String>) {
@@ -63,23 +70,54 @@ private suspend fun execute(options: Options) {
 
     val (courses, state) = fetchCourses(getState(options.init, client), client)
 
-    if (options.dryRun) {
-        println("state.courses = ${state.courses}")
-        println("courses = $courses")
+    if (options.init) {
+        persistState(state.copy(courses = courses))
 
         return
     }
 
-    if (courses != state.courses && !options.init) {
-        println("Courses have changed")
+    when (processChanges(courses, state)) {
+        Action.SKIP -> return
+        Action.QUEUE_NOTIFICATION -> persistState(
+            state.copy(
+                courses = courses,
+                queuedNotification = DateTime.now()
+            )
+        )
+        Action.SEND_NOTIFICATION -> {
+            notify(courses, client)
 
-        logger.info { "sending notification" }
+            persistState(
+                state.copy(
+                    courses = courses,
+                    queuedNotification = null
+                )
+            )
+        }
+    }
+}
 
-        notify(courses, client)
+internal fun processChanges(
+    courses: List<Course>,
+    state: State,
+): Action {
+    // Phase 1: detect new changes
+    if (courses != state.courses) {
+        println("Courses have changed -> queueing")
+
+        return Action.QUEUE_NOTIFICATION
     }
 
-    persistState(state.copy(courses = courses))
+    // Phase 2: send queued notification
+    if (!hasScheduledNotification(state)) {
+        return Action.SKIP
+    }
+
+    return Action.SEND_NOTIFICATION
 }
+
+private fun hasScheduledNotification(state: State): Boolean =
+    state.queuedNotification != null && DateTime.now() - state.queuedNotification >= 2.hours
 
 private suspend fun getState(init: Boolean, client: HttpClient) =
     if (init) initializeState(client) else loadState(client)

@@ -12,7 +12,7 @@ suspend fun loadState(client: HttpClient): State =
     restoreState() ?: initializeState(client)
 
 suspend fun initializeState(client: HttpClient) =
-    State(login(Config.username, Config.password, client), null)
+    State(login(Config.username, Config.password, client), null, null)
 
 suspend fun refreshState(state: State, client: HttpClient): State =
     state.copy(auth = login(Config.username, Config.password, client))
