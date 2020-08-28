@@ -70,13 +70,19 @@ private suspend fun execute(options: Options) {
 
     when (processUpdates(courses, state)) {
         Action.SKIP -> return
-        Action.QUEUE_NOTIFICATION -> persistState(
-            state.copy(
-                courses = courses,
-                queuedNotification = DateTime.now()
+        Action.QUEUE_NOTIFICATION -> {
+            println("Courses have changed -> queueing")
+
+            persistState(
+                state.copy(
+                    courses = courses,
+                    queuedNotification = DateTime.now()
+                )
             )
-        )
+        }
         Action.SEND_NOTIFICATION -> {
+            println("Notification sent")
+
             notify(courses, client)
 
             persistState(

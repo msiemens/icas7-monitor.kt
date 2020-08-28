@@ -15,8 +15,6 @@ fun processUpdates(
 ): Action {
     // Phase 1: detect new changes
     if (courses != state.courses) {
-        println("Courses have changed -> queueing")
-
         return Action.QUEUE_NOTIFICATION
     }
 
