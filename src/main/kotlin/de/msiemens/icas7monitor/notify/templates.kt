@@ -3,7 +3,8 @@ package de.msiemens.icas7monitor.notify
 import de.msiemens.icas7monitor.data.Course
 
 // language=HTML
-internal fun renderHtml(courses: List<Course>) = """
+internal fun renderHtml(courses: List<Course>) =
+    """
 <html>
 <head></head>
 <body>
@@ -24,7 +25,7 @@ ${
             """.trimIndent()
         }
         .joinToString("")
-}
+    }
 <p>
     Liebe Grüße,<br>
     deine freundliche Nachhilfe-Erinnerung :)
@@ -33,21 +34,23 @@ ${
 </html>
 """
 
-internal fun renderText(courses: List<Course>) = """Hey Theresa!
+internal fun renderText(courses: List<Course>) =
+    """Hey Theresa!
 
 Dein Nachhilfe-Plan für die nächsten zwei Wochen wurde aktualisiert.
 Hier ist der neue Plan:
 
 ${
     courses
-        .map { course -> """
+        .map { course ->
+            """
     Am **${schedule(course)}**:
     Fächer: ${subjects(course)}
     Schüler: ${students(course)}
 """
         }
         .joinToString("")
-}
+    }
 
 Liebe Grüße,
 deine freundliche Nachhilfe-Erinnerung :)

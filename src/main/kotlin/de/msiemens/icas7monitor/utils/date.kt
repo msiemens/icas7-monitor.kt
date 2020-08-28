@@ -18,7 +18,6 @@ fun DateTimeRange.days(): Iterable<Date> {
 
                 return date.date
             }
-
         }
     }
 }

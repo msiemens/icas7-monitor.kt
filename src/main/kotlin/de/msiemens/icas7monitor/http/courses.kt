@@ -21,10 +21,12 @@ suspend fun fetchCourses(state: State, client: HttpClient): Pair<List<Course>, S
     val range = today until (today + 2.weeks)
 
     return range.days()
-        .fold(Pair(emptyList(), state),
+        .fold(
+            Pair(emptyList(), state),
             { acc: Pair<List<Course>, State>, date: Date ->
                 fetchCoursesFor(date, acc, client)
-            })
+            }
+        )
 }
 
 private suspend fun fetchCoursesFor(

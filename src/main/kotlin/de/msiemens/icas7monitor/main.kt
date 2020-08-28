@@ -1,12 +1,6 @@
 package de.msiemens.icas7monitor
 
 import com.soywiz.klock.DateTime
-import com.soywiz.klock.ISO8601
-import com.soywiz.klock.TimeSpan
-import com.soywiz.klock.hours
-import de.msiemens.icas7monitor.data.Course
-import de.msiemens.icas7monitor.data.State
-import de.msiemens.icas7monitor.data.Student
 import de.msiemens.icas7monitor.http.fetchCourses
 import de.msiemens.icas7monitor.http.getClient
 import de.msiemens.icas7monitor.notify.notify

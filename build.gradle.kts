@@ -15,7 +15,9 @@ plugins {
     id("com.github.johnrengelman.shadow") version "6.0.0"
     id("com.palantir.graal") version "0.7.1-15-g62b5090"
     id("com.github.ben-manes.versions") version "0.29.0"
+    id("org.jlleitschuh.gradle.ktlint") version "9.3.0"
 }
+
 group = "de.msiemens"
 version = "1.0-SNAPSHOT"
 

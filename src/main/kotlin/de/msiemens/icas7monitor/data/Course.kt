@@ -34,4 +34,3 @@ data class Course(
 
     fun grades(): List<String> = students.map { it.grade }
 }
-
