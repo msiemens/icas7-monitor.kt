@@ -7,5 +7,5 @@ data class State(
 
     val courses: List<Course>?,
 
-    val queuedNotification: DateTime?
+    val queuedNotification: DateTime?,
 )

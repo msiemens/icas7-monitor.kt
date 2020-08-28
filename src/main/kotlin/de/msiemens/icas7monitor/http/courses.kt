@@ -30,7 +30,7 @@ suspend fun fetchCourses(state: State, client: HttpClient): Pair<List<Course>, S
 private suspend fun fetchCoursesFor(
     date: Date,
     acc: Pair<List<Course>, State>,
-    client: HttpClient
+    client: HttpClient,
 ): Pair<List<Course>, State> {
     val (courses, state) = acc
 

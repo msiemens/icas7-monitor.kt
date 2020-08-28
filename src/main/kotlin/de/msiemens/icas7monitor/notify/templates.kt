@@ -40,8 +40,7 @@ Hier ist der neue Plan:
 
 ${
     courses
-        .map { course ->
-"""
+        .map { course -> """
     Am **${schedule(course)}**:
     Fächer: ${subjects(course)}
     Schüler: ${students(course)}
