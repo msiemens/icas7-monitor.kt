@@ -1,4 +1,4 @@
-package de.msiemens.icas7monitor
+package de.msiemens.icas7monitor.scheduler
 
 import com.soywiz.klock.Date
 import com.soywiz.klock.DateTime
@@ -11,7 +11,7 @@ import de.msiemens.icas7monitor.data.Student
 import org.junit.jupiter.api.DisplayName
 import kotlin.test.*
 
-internal class MainKtTest {
+internal class SchedulerKtTest {
     val auth = Auth("", 1)
     val course = Course(
         courseId = "1",
@@ -33,7 +33,7 @@ internal class MainKtTest {
             queuedNotification = null
         )
 
-        assertEquals(Action.SKIP, processChanges(listOf(course), state))
+        assertEquals(Action.SKIP, processUpdates(listOf(course), state))
     }
 
     @Test
@@ -45,7 +45,7 @@ internal class MainKtTest {
             queuedNotification = DateTime.now()
         )
 
-        assertEquals(Action.SKIP, processChanges(listOf(course), state))
+        assertEquals(Action.SKIP, processUpdates(listOf(course), state))
     }
 
     @Test
@@ -57,7 +57,7 @@ internal class MainKtTest {
             queuedNotification = null
         )
 
-        assertEquals(Action.QUEUE_NOTIFICATION, processChanges(listOf(course), state))
+        assertEquals(Action.QUEUE_NOTIFICATION, processUpdates(listOf(course), state))
     }
 
     @Test
@@ -69,7 +69,7 @@ internal class MainKtTest {
             queuedNotification = DateTime.now() - 2.hours
         )
 
-        assertEquals(Action.QUEUE_NOTIFICATION, processChanges(listOf(course), state))
+        assertEquals(Action.QUEUE_NOTIFICATION, processUpdates(listOf(course), state))
     }
 
     @Test
@@ -81,6 +81,6 @@ internal class MainKtTest {
             queuedNotification = DateTime.now() - 2.hours
         )
 
-        assertEquals(Action.SEND_NOTIFICATION, processChanges(listOf(course), state))
+        assertEquals(Action.SEND_NOTIFICATION, processUpdates(listOf(course), state))
     }
 }

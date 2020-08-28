@@ -10,6 +10,8 @@ import de.msiemens.icas7monitor.data.Student
 import de.msiemens.icas7monitor.http.fetchCourses
 import de.msiemens.icas7monitor.http.getClient
 import de.msiemens.icas7monitor.notify.notify
+import de.msiemens.icas7monitor.scheduler.Action
+import de.msiemens.icas7monitor.scheduler.processUpdates
 import de.msiemens.icas7monitor.state.initializeState
 import de.msiemens.icas7monitor.state.loadState
 import de.msiemens.icas7monitor.state.persistState
@@ -45,10 +47,6 @@ private data class Options(
     }
 }
 
-internal enum class Action {
-    SKIP, QUEUE_NOTIFICATION, SEND_NOTIFICATION
-}
-
 fun run(args: Array<String>) {
     val options = Options.parse(args)
 
@@ -76,7 +74,7 @@ private suspend fun execute(options: Options) {
         return
     }
 
-    when (processChanges(courses, state)) {
+    when (processUpdates(courses, state)) {
         Action.SKIP -> return
         Action.QUEUE_NOTIFICATION -> persistState(
             state.copy(
@@ -96,28 +94,6 @@ private suspend fun execute(options: Options) {
         }
     }
 }
-
-internal fun processChanges(
-    courses: List<Course>,
-    state: State,
-): Action {
-    // Phase 1: detect new changes
-    if (courses != state.courses) {
-        println("Courses have changed -> queueing")
-
-        return Action.QUEUE_NOTIFICATION
-    }
-
-    // Phase 2: send queued notification
-    if (!hasScheduledNotification(state)) {
-        return Action.SKIP
-    }
-
-    return Action.SEND_NOTIFICATION
-}
-
-private fun hasScheduledNotification(state: State): Boolean =
-    state.queuedNotification != null && DateTime.now() - state.queuedNotification >= 2.hours
 
 private suspend fun getState(init: Boolean, client: HttpClient) =
     if (init) initializeState(client) else loadState(client)
