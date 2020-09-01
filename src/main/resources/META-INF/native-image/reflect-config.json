@@ -96,6 +96,10 @@
       {
         "name": "courses",
         "allowWrite": true
+      },
+      {
+        "name": "queuedNotification",
+        "allowWrite": true
       }
     ]
   },
@@ -178,41 +182,6 @@
     ]
   },
   {
-    "name": "org.apache.commons.logging.LogFactory"
-  },
-  {
-    "name": "org.apache.commons.logging.impl.Jdk14Logger",
-    "methods": [
-      {
-        "name": "<init>",
-        "parameterTypes": [
-          "java.lang.String"
-        ]
-      }
-    ]
-  },
-  {
-    "name": "org.apache.commons.logging.impl.Log4JLogger"
-  },
-  {
-    "name": "org.apache.commons.logging.impl.LogFactoryImpl",
-    "methods": [
-      {
-        "name": "<init>",
-        "parameterTypes": []
-      }
-    ]
-  },
-  {
-    "name": "org.apache.commons.logging.impl.WeakHashtable",
-    "methods": [
-      {
-        "name": "<init>",
-        "parameterTypes": []
-      }
-    ]
-  },
-  {
     "name": "sun.misc.Unsafe",
     "fields": [
       {
@@ -233,6 +202,27 @@
     "fields": [
       {
         "name": "top",
+        "allowUnsafeAccess": true
+      }
+    ]
+  },
+  {
+    "name": "io.ktor.network.selector.InterestSuspensionsMap",
+    "fields": [
+      {
+        "name": "readHandlerReference",
+        "allowUnsafeAccess": true
+      },
+      {
+        "name": "writeHandlerReference",
+        "allowUnsafeAccess": true
+      },
+      {
+        "name": "connectHandlerReference",
+        "allowUnsafeAccess": true
+      },
+      {
+        "name": "acceptHandlerReference",
         "allowUnsafeAccess": true
       }
     ]
