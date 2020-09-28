@@ -5,8 +5,8 @@ import de.msiemens.icas7monitor.data.Course
 import io.ktor.client.*
 
 suspend fun notify(courses: List<Course>, client: HttpClient) {
-    val html = renderHtml(courses)
-    val text = renderText(courses)
+    val html = renderHtml(courses, Config.greeting)
+    val text = renderText(courses, Config.greeting)
 
     sendMail(
         Contents(text, html),

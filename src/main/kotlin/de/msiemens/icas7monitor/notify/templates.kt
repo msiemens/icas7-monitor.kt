@@ -3,12 +3,12 @@ package de.msiemens.icas7monitor.notify
 import de.msiemens.icas7monitor.data.Course
 
 // language=HTML
-internal fun renderHtml(courses: List<Course>) =
+internal fun renderHtml(courses: List<Course>, greeting: String) =
     """
 <html>
 <head></head>
 <body>
-<p>Hey Theresa!</p>
+<p>${greeting}</p>
 <p>
     Dein Nachhilfe-Plan für die nächsten zwei Wochen wurde aktualisiert.<br>
     Hier ist der neue Plan:
@@ -34,8 +34,8 @@ ${
 </html>
 """
 
-internal fun renderText(courses: List<Course>) =
-    """Hey Theresa!
+internal fun renderText(courses: List<Course>, greeting: String) =
+    """${greeting}!
 
 Dein Nachhilfe-Plan für die nächsten zwei Wochen wurde aktualisiert.
 Hier ist der neue Plan:
